@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import { Providers } from "@/components/shared";
 import { Nunito } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -17,9 +18,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const session = null;
+
+  // if (!session) {
+  //   redirect("/auth");
+  // }
+
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <head>
+        <link data-rh="true" rel="icon" href="/hair-salon.png" />
+      </head>
+      <body className={nunito.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
