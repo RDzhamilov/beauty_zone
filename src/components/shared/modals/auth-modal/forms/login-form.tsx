@@ -37,7 +37,13 @@ export const LoginForm: React.FC = () => {
         throw Error(result?.message || "Unknown error");
       }
 
+      localStorage.setItem("authToken", result.token);
+
       SuccessCustomToast({ message: t("messageToast.login-form.success") });
+
+      setTimeout(() => {
+        location.href = "/home";
+      }, 3000);
     } catch (error) {
       console.error("Error [LOGIN]", error);
       ErrorCustomToast({ message: t("messageToast.login-form.error") });

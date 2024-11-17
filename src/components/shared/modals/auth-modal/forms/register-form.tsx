@@ -19,33 +19,21 @@ export const RegisterForm: React.FC = () => {
       firstName: "",
       lastName: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  const registerUser = async (data: TFormRegisterValue) => {
-    const response = await fetch("http://localhost:8080/api/Auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      return result;
-    } else {
-      throw new Error(result.message || "Registration failed");
-    }
-  };
-
   const onSubmit = async (data: TFormRegisterValue) => {
     try {
-      const result = await registerUser(data);
+      const response = await fetch("http://localhost:8080/api/Auth/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.text();
 
-      if (result === true) {
+      if (result === "User has been created.") {
         SuccessCustomToast({
           message: "Registration successful 📝. Please confirm your email",
         });
@@ -63,9 +51,9 @@ export const RegisterForm: React.FC = () => {
     <FormProvider {...form}>
       <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
         <FormInput name="email" label="E-Mail" required />
-        <FormInput name="fullName" label="Full name" required />
+        <FormInput name="firstName" label="First name" required />
+        <FormInput name="lastName" label="Last name" required />
         <FormInput name="password" label="Password" type="password" required />
-        <FormInput name="confirmPassword" label="Confirm password" type="password" required />
 
         <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
           Sign up
